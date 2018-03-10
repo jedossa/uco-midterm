@@ -18,7 +18,7 @@ sealed trait R2[A] {
   def ↙ : ∆
   def ⇌ : ∆
 
-  def δ(f: I)(g: I): ∆ = { case (x, y) => (f(x), g(y)) }
+  def δ(f: I)(g: I): ∆ = { case (x, y) => f(x) -> g(y) }
 
   implicit def rm: Monoid[∆] = new Monoid[∆] {
     override def empty: ∆ = ⇌
@@ -28,14 +28,14 @@ sealed trait R2[A] {
 
 case object ℤ extends R2[Int] {
   override def Ø: P = (0, 0)
-  override def → : ∆ = δ(_ + 1)(_ + 0)
-  override def ↤ : ∆ = δ(_ - 1)(_ + 0)
-  override def ↓ : ∆ = δ(_ + 0)(_ - 1)
-  override def ↑ : ∆ = δ(_ + 0)(_ + 1)
+  override def → : ∆ = δ(_ + 1)(identity)
+  override def ↤ : ∆ = δ(_ - 1)(identity)
+  override def ↓ : ∆ = δ(identity)(_ - 1)
+  override def ↑ : ∆ = δ(identity)(_ + 1)
   override def ↗ : ∆ = δ(_ + 1)(_ + 1)
   override def ↘ : ∆ = δ(_ + 1)(_ - 1)
   override def ↖ : ∆ = δ(_ - 1)(_ + 1)
   override def ↙ : ∆ = δ(_ - 1)(_ - 1)
   override def ⇌ : ∆ = δ(identity)(identity)
-  def move: (P) => ∆ = { ??? }
+  def move: (P) => ∆ = { case (x, y) => δ(_ + x)(_ + y) }
 }
