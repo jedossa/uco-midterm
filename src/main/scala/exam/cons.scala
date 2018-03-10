@@ -13,8 +13,8 @@ object Collection {
   }
 
   def foldRight[A, B](col: Collection[A], z: B)(f: (A, B) => B): B = col match {
-    case Empty => ???
-    case Cons(_, t) => f(???, foldRight(t, z)(???))
+    case Empty => z
+    case Cons(h, t) => f(h, foldRight(t, z)(f))
   }
 
   def length(col: Collection): Int = foldRight(col, ???) { ??? }
