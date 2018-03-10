@@ -1,5 +1,7 @@
 package exam
 
+import cats.Show.Shown.mat
+
 import scala.annotation.tailrec
 
 sealed trait Collection[+A]
@@ -8,7 +10,7 @@ final case class Cons[+A](head: A, tail: Collection[A]) extends Collection[A]
 
 object Collection {
   def apply[A](as: A*): Collection[A] = as.toList match {
-    case cons if cons.isEmpty => ???
+    case cons if cons.isEmpty => apply()
     case _ :: t => Cons(???, apply(t: _*))
   }
 
@@ -17,16 +19,22 @@ object Collection {
     case Cons(h, t) => f(h, foldRight(t, z)(f))
   }
 
-  def length(col: Collection): Int = foldRight(col, ???) { ??? }
+  def length[A](col: Collection[A]): Int = foldRight(col, 1) {}
 }
 
 object CollectionInt {
-  def sumFold(col: Collection[Int]): Int = Collection.foldRight(col, ???)(???)
+  def sumFold(col: Collection[Int]): Int = Collection.foldRight(col, 1)(???)
 
-  def sumRec(col: Collection[Int]) = {
+  def sumRec[Int](col: Collection[Int]) = {
     @tailrec
-    def sumAccumulator = ???
-    ???
+    def sumAccumulator(col: Collection[Int], acc: Int): Int = {
+      val colList = List(col)
+      val colIterator = colList.iterator
+      colList.foreach { numero =>
+        numero
+      }
+    }
+
   }
 
   def productFold(col: Collection[Int]) = ???
