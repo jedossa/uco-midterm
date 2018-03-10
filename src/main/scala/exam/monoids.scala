@@ -22,13 +22,13 @@ sealed trait R2[A] {
 
   implicit def rm: Monoid[∆] = new Monoid[∆] {
     override def empty: ∆ = ⇌
-    override def combine(f: ∆, g: ∆): ∆ = ???
+    override def combine(f: ∆, g: ∆): ∆ = f compose(g)
   }
 }
 
 case object ℤ extends R2[Int] {
   override def Ø: P = (0, 0)
-  override def → : ∆ = δ(_ + 1)(???)
+  override def → : ∆ = δ(_ + 1)(_ + 0)
   override def ↤ = ???
   override def ↓ = ???
   override def ↑ = ???
