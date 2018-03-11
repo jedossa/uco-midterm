@@ -22,7 +22,7 @@ sealed trait R2[A] {
 
   implicit def rm: Monoid[∆] = new Monoid[∆] {
     override def empty: ∆ = ⇌
-    override def combine(f: ∆, g: ∆): ∆ = ???
+    override def combine(f: ∆, g: ∆): ∆ = f
   }
 }
 
