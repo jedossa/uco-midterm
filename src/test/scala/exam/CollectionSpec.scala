@@ -38,4 +38,5 @@ object CollectionSpec extends Properties("Collection[A]") {
     val max = math.max(a, b)
     CollectionInt.maxRec(col) == max && CollectionInt.maxFold(col) == max
   }
+
 }
