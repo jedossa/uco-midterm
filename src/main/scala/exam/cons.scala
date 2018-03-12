@@ -17,42 +17,47 @@ object Collection {
     case Cons(h, t) => f(h, foldRight(t, z)(f))
   }
 
-  def length[A](col: Collection[A]): Int = foldRight(col, 0) { (_, acc) => acc + 1 }
+  def length(col: Collection[_]): Int = foldRight(col, 0) { case (_, z) => z + 1 }
 }
 
 object CollectionInt {
-  def sumFold(col: Collection[Int]): Int = Collection.foldRight(col, 0) { (acc, v) => acc + v }
+  def sumFold(col: Collection[Int]): Int = Collection.foldRight(col, 0)(_ + _)
 
-  def sumRec(col: Collection[Int]) = {
+  def sumRec(col: Collection[Int]): Int = {
     @tailrec
-    def sumAccumulator(l: Collection[Int], acc: Int): Int = l match {
-      case Cons(h, Empty) => h + acc
-      case Cons(h, t) => sumAccumulator(t, h + acc)
-      case Empty => acc
+    def sumAccumulator(col: Collection[Int], acc: Int): Int = {
+      col match {
+        case Empty => acc
+        case Cons(h, t) => sumAccumulator(t, acc + h)
+      }
     }
     sumAccumulator(col, 0)
   }
 
-  def productFold(col: Collection[Int]) = Collection.foldRight(col, 1) { (acc, v) => acc * v }
+  def productFold(col: Collection[Int]): Int = Collection.foldRight(col, 1)(_ * _)
 
-  def productRec(col: Collection[Int]) = {
+  def productRec(col: Collection[Int]): Int = {
     @tailrec
-    def productAccumulator(l: Collection[Int], acc: Int): Int = l match {
-      case Cons(h, Empty) => h * acc
-      case Cons(h, t) => productAccumulator(t, h * acc)
-      case Empty => acc
+    def productAccumulator(col: Collection[Int], acc: Int): Int = {
+      col match {
+        case Empty => acc
+        case Cons(h, t) => productAccumulator(t, acc * h)
+      }
     }
     productAccumulator(col, 1)
   }
 
-  def maxFold(col: Collection[Int]) = Collection.foldRight(col, Integer.MIN_VALUE)(_ max _)
+  def maxFold(col: Collection[Int]): Int = Collection.foldRight(col, Integer.MIN_VALUE)(_ max _)
 
   def maxRec(col: Collection[Int]): Int = {
     @tailrec
-    def maxAcc(l: Collection[Int], max: Int): Int = l match {
-      case Cons(h, t) => maxAcc(t, if (h > max) h else max)
-      case Empty => max
+    def maxAccum(col: Collection[Int], max: Int): Int = {
+      col match {
+        case Empty => max
+        case Cons(h, t) =>
+          maxAccum(t, if (h > max) h else max)
+      }
     }
-    maxAcc(col, Integer.MIN_VALUE)
+    maxAccum(col, Integer.MIN_VALUE)
   }
 }
